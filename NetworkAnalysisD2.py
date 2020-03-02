@@ -2,7 +2,7 @@
 """
 Created on Mon Feb 24 14:29:50 2020
 
-@author: kel
+@author: Ryan Cardin, Sumedh Sohrab
 """
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -60,21 +60,38 @@ nx.draw_networkx_nodes(ug, pos, node_size=50)
 nx.draw_networkx_edges(ug, pos, width=1)
 plt.show()
 
+cc = sorted(nx.connected_components(ug), key = len, reverse=True)
+separate1 = nx.Graph()
+separate2 = nx.Graph()
+for ln in lines[2:-1]:
+    if int(ln.split(' ')[0]) in cc[0]:
+        if int(ln.split(' ')[1]) in cc[0]:
+            vSt = int(ln.split(' ')[0])
+            vEd = int(ln.split(' ')[1])
+            eLn = float(ln.split(' ')[2])
+            separate1.add_edge(vSt, vEd, weight=eLn)
+separate2.add_edge(81, 99, weight=1)
+separate2.add_edge(99, 98, weight=1)
+
 #####Calculations
-mean=np.mean(edgeweight)
+mean = np.mean(edgeweight)
 standardDeviation=np.std(edgeweight)
 plt.figure(2)
-plt.title('Distribution probability Undirected Graph')
+plt.title('Weight Histogram of Undirected Graph Mean: {0:.2}'.format(mean) + ' STD: {0:.2}'.format(standardDeviation))
 plt.hist(edgeweight, bins=100)
 plt.show()
 
-
-print("The Amount of Connected Components: ",nx.number_connected_components(ug))
-ccs=[len(c) for c in sorted(nx.connected_components(ug), key=len, reverse=True)]
-print("Largest Connected Component: ",ccs[0])
+print("The Amount of Connected Components: ", nx.number_connected_components(ug))
+ccs = [len(c) for c in sorted(nx.connected_components(ug), key=len, reverse=True)]
+print("Largest Connected Component: ", ccs[0])
 print("Smallest Connected Component: ", ccs[-1])
 print("Mean: {0:.2}".format(mean))
 print("Standard Deviation: {0:.2}".format(standardDeviation))
+print("Is subnetwork 1 Eularian? ", nx.is_eulerian(separate1))
+print("Is subnetwork 2 Eularian? ", nx.is_eulerian(separate2))
+
+
+
 
 #######################################
 #### START: for a directed network ####
@@ -103,6 +120,7 @@ lines = f.readlines()
 # num2: end of the vertex,
 # num3: weight of the edge.
 
+
 dg = nx.DiGraph()
 
 dedgeweight = []
@@ -117,14 +135,8 @@ for ln in lines[2:-1]:
 pos = nx.spring_layout(dg)
 
 ccs = [list(cc) for cc in nx.strongly_connected_components(dg)]
-mean=np.mean(dedgeweight)
-standardDeviation=np.std(dedgeweight)
-
-plt.figure(3)
-plt.title('Distribution probability Directed Graph')
-plt.hist(dedgeweight, bins=100)
-plt.show()
-
+mean = np.mean(dedgeweight)
+standardDeviation = np.std(dedgeweight)
 
 plt.figure(4)
 plt.title('Directed graph')
@@ -134,6 +146,10 @@ nx.draw_networkx_nodes(dg, pos, node_size=50)
 nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
 plt.show()
 
+plt.figure(3)
+plt.title('Weight Histogram of Directed Graph Mean: {0:.2}'.format(mean)+ ' STD: {0:.2}'.format(standardDeviation))
+plt.hist(dedgeweight, bins=100)
+plt.show()
 
 #Calculations
 print("The number of Connected Components: ", len(ccs))
