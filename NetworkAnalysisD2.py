@@ -89,7 +89,15 @@ print("Mean: {0:.2}".format(mean))
 print("Standard Deviation: {0:.2}".format(standardDeviation))
 print("Is subnetwork 1 Eularian? ", nx.is_eulerian(separate1))
 print("Is subnetwork 2 Eularian? ", nx.is_eulerian(separate2))
-
+a = nx.minimum_spanning_tree(ug)
+print(sorted(a.edges(data=True)))
+print("Is tree?",nx.is_tree(a))
+print("Is forest?", nx.is_forest(a))
+b = nx.minimum_spanning_tree(separate1)
+separate1.remove_edge(2,6)
+print("Removed edge from largest CC")
+print("Is tree?", nx.is_tree(b))
+print("Is forest?", nx.is_forest(b))
 
 
 
