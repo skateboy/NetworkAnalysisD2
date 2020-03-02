@@ -64,7 +64,7 @@ plt.show()
 mean=np.mean(edgeweight)
 standardDeviation=np.std(edgeweight)
 plt.figure(2)
-plt.title('Distribution probability')
+plt.title('Distribution probability Undirected Graph')
 plt.hist(edgeweight, bins=100)
 plt.show()
 
@@ -73,8 +73,8 @@ print("The Amount of Connected Components: ",nx.number_connected_components(ug))
 ccs=[len(c) for c in sorted(nx.connected_components(ug), key=len, reverse=True)]
 print("Largest Connected Component: ",ccs[0])
 print("Smallest Connected Component: ", ccs[-1])
-print("Mean: ", mean)
-print("Standard Deviation: ", standardDeviation)
+print("Mean: {0:.2}".format(mean))
+print("Standard Deviation: {0:.2}".format(standardDeviation))
 
 #######################################
 #### START: for a directed network ####
@@ -105,19 +105,40 @@ lines = f.readlines()
 
 dg = nx.DiGraph()
 
+dedgeweight = []
 for ln in lines[2:-1]:
     vSt = int(ln.split(' ')[0])
     vEd = int(ln.split(' ')[1])
     eLn = float(ln.split(' ')[2])
-
+    dedgeweight.append(eLn)
     dg.add_edge(vSt, vEd, weight=eLn)
 
 
 pos = nx.spring_layout(dg)
 
+ccs = [list(cc) for cc in nx.strongly_connected_components(dg)]
+mean=np.mean(dedgeweight)
+standardDeviation=np.std(dedgeweight)
+
 plt.figure(3)
+plt.title('Distribution probability Directed Graph')
+plt.hist(dedgeweight, bins=100)
+plt.show()
+
+
+plt.figure(4)
 plt.title('Directed graph')
 # nodes
 nx.draw_networkx_nodes(dg, pos, node_size=50)
 # edges
 nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
+plt.show()
+
+
+#Calculations
+print("The number of Connected Components: ", len(ccs))
+print("The size of the largest Connected Component: ", len(ccs[0]))
+print("The size of the smallest Connected Component: ", len(ccs[-1]))
+print("Mean: {0:.2}".format(mean))
+print("Standard Deviation: {0:.2}".format(standardDeviation))
+
