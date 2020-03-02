@@ -74,10 +74,10 @@ separate2.add_edge(81, 99, weight=1)
 separate2.add_edge(99, 98, weight=1)
 
 #####Calculations
-mean = np.mean(edgeweight)
-standardDeviation=np.std(edgeweight)
+mean = np.mean(ug.degree)
+standardDeviation=np.std(ug.degree)
 plt.figure(2)
-plt.title('Weight Histogram of Undirected Graph Mean: {0:.2}'.format(mean) + ' STD: {0:.2}'.format(standardDeviation))
+plt.title('Node Degree Histogram of Undirected Graph')
 plt.hist(edgeweight, bins=100)
 plt.show()
 
@@ -91,10 +91,11 @@ print("Is subnetwork 1 Eularian? ", nx.is_eulerian(separate1))
 print("Is subnetwork 2 Eularian? ", nx.is_eulerian(separate2))
 a = nx.minimum_spanning_tree(ug)
 print(sorted(a.edges(data=True)))
-print("Is tree?",nx.is_tree(a))
+print("Is tree?", nx.is_tree(a))
 print("Is forest?", nx.is_forest(a))
+separate1.remove_edge(3, 11)
 b = nx.minimum_spanning_tree(separate1)
-separate1.remove_edge(2,6)
+print(sorted(b.edges(data=True)))
 print("Removed edge from largest CC")
 print("Is tree?", nx.is_tree(b))
 print("Is forest?", nx.is_forest(b))
@@ -143,8 +144,8 @@ for ln in lines[2:-1]:
 pos = nx.spring_layout(dg)
 
 ccs = [list(cc) for cc in nx.strongly_connected_components(dg)]
-mean = np.mean(dedgeweight)
-standardDeviation = np.std(dedgeweight)
+mean = np.mean(dg.degree)
+standardDeviation = np.std(dg.degree)
 
 plt.figure(4)
 plt.title('Directed graph')
@@ -155,14 +156,14 @@ nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
 plt.show()
 
 plt.figure(3)
-plt.title('Weight Histogram of Directed Graph Mean: {0:.2}'.format(mean)+ ' STD: {0:.2}'.format(standardDeviation))
-plt.hist(dedgeweight, bins=100)
+plt.title('Node Degree Histogram of Directed Graph')
+plt.hist(dg.degree, bins=100)
 plt.show()
 
 #Calculations
 print("The number of Connected Components: ", len(ccs))
 print("The size of the largest Connected Component: ", len(ccs[0]))
 print("The size of the smallest Connected Component: ", len(ccs[-1]))
-print("Mean: {0:.2}".format(mean))
-print("Standard Deviation: {0:.2}".format(standardDeviation))
+print("Mean of Node Degree: {0:.2}".format(mean))
+print("Standard Deviation of Node Degree: {0:.2}".format(standardDeviation))
 
