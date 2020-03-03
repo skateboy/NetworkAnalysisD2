@@ -108,6 +108,22 @@ else:
     print("N3 num of edges: ", n3.number_of_edges())
 
 
+allp = nx.all_pairs_dijkstra_path_length(ug)
+allp2 = list(allp)
+totalweight = []
+for x in allp2:
+    y=1
+    for y in x[1]:
+        totalweight.append(x[1][y])
+
+mean = np.mean(totalweight)
+standardDeviation = np.std(totalweight)
+plt.figure(6)
+plt.title('Shortest path between all nodes probability distribution: Undirected Graph: Mean: {0:.2}'.format(mean)+' STD: {0:.2}'.format(standardDeviation))
+plt.hist(totalweight, bins=100)
+plt.show()
+
+
 #####Calculations
 mean = np.mean(ug.degree)
 standardDeviation = np.std(ug.degree)
@@ -222,6 +238,24 @@ else:
     print("They are not equal")
     print("N1 num of edges: ", n1.number_of_edges())
     print("N3 num of edges: ", n3.number_of_edges())
+
+
+
+allp = nx.all_pairs_dijkstra_path_length(dg)
+allp2 = list(allp)
+totalweight = []
+for x in allp2:
+    y=1
+    for y in x[1]:
+        totalweight.append(x[1][y])
+
+mean = np.mean(totalweight)
+standardDeviation = np.std(totalweight)
+plt.figure(7)
+plt.title('Shortest path between all nodes probability distribution: Directed Graph: Mean: {0:.2}'.format(mean)+' STD: {0:.2}'.format(standardDeviation))
+plt.hist(totalweight, bins=100)
+plt.show()
+
 
 # Calculations
 print("The number of Connected Components: ", len(ccs))
