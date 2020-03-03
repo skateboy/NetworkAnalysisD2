@@ -4,6 +4,7 @@ Created on Mon Feb 24 14:29:50 2020
 
 @author: Ryan Cardin, Sumedh Sohrab
 """
+import igraph
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
@@ -56,7 +57,7 @@ plt.title('Undirected graph')
 nx.draw_networkx_nodes(ug, pos, node_size=50)
 # edges
 nx.draw_networkx_edges(ug, pos, width=1)
-##################################################################plt.show()
+
 
 cc = sorted(nx.connected_components(ug), key=len, reverse=True)
 ###Separate1 = Largest Connected Component
@@ -107,21 +108,21 @@ else:
     print("N1 num of edges: ", n1.number_of_edges())
     print("N3 num of edges: ", n3.number_of_edges())
 
-
 allp = nx.all_pairs_dijkstra_path_length(ug)
 allp2 = list(allp)
 totalweight = []
 for x in allp2:
-    y=1
+    y = 1
     for y in x[1]:
         totalweight.append(x[1][y])
 
 mean = np.mean(totalweight)
 standardDeviation = np.std(totalweight)
 plt.figure(6)
-plt.title('Shortest path between all nodes probability distribution: Undirected Graph: Mean: {0:.2}'.format(mean)+' STD: {0:.2}'.format(standardDeviation))
+plt.title('Shortest path between all nodes probability distribution: Undirected Graph: Mean: {0:.2}'.format(
+    mean) + ' STD: {0:.2}'.format(standardDeviation))
 plt.hist(totalweight, bins=100)
-plt.show()
+
 
 
 #####Calculations
@@ -131,7 +132,7 @@ standardDeviation = np.std(ug.degree)
 plt.figure(2)
 plt.title('Node Degree Histogram of Undirected Graph')
 plt.hist(ug.degree, bins=100)
-##################################################################plt.show()
+
 
 print("The Amount of Connected Components: ", nx.number_connected_components(ug))
 ccs = [len(c) for c in sorted(nx.connected_components(ug), key=len, reverse=True)]
@@ -186,9 +187,13 @@ for ln in lines[2:-1]:
     eLn = float(ln.split(' ')[2])
     dg.add_edge(vSt, vEd, weight=eLn)
 
+dg.add_edge(99, 98, weight=1)
+dg.add_edge(98, 100, weight=1)
 pos = nx.spring_layout(dg)
+z = dg.copy()
+z1 = nx.to_undirected(z)
+cc = sorted(nx.connected_components(z1), key=len, reverse=True)
 
-ccs = [list(cc) for cc in nx.strongly_connected_components(dg)]
 mean = np.mean(dg.degree)
 standardDeviation = np.std(dg.degree)
 
@@ -199,13 +204,13 @@ plt.title('Directed graph')
 nx.draw_networkx_nodes(dg, pos, node_size=50)
 # edges
 nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
-##################################################################plt.show()
+
 
 ###Displaying probability distribution of node degree
 plt.figure(3)
 plt.title('Node Degree Histogram of Directed Graph')
 plt.hist(dg.degree, bins=100)
-##################################################################plt.show()
+
 
 n1 = dg.copy()
 n2 = dg.copy()
@@ -239,27 +244,52 @@ else:
     print("N1 num of edges: ", n1.number_of_edges())
     print("N3 num of edges: ", n3.number_of_edges())
 
-
-
 allp = nx.all_pairs_dijkstra_path_length(dg)
 allp2 = list(allp)
 totalweight = []
 for x in allp2:
-    y=1
+    y = 1
     for y in x[1]:
         totalweight.append(x[1][y])
 
 mean = np.mean(totalweight)
 standardDeviation = np.std(totalweight)
+
 plt.figure(7)
-plt.title('Shortest path between all nodes probability distribution: Directed Graph: Mean: {0:.2}'.format(mean)+' STD: {0:.2}'.format(standardDeviation))
+plt.title('Shortest path between all nodes probability distribution: Directed Graph: Mean: {0:.2}'.format(
+    mean) + ' STD: {0:.2}'.format(standardDeviation))
 plt.hist(totalweight, bins=100)
-plt.show()
+
+###creating the separate graphs for the connected components
+separate1 = nx.Graph()
+for ln in lines[2:-1]:
+    if int(ln.split(' ')[0]) in cc[0]:
+        if int(ln.split(' ')[1]) in cc[0]:
+            vSt = int(ln.split(' ')[0])
+            vEd = int(ln.split(' ')[1])
+            eLn = float(ln.split(' ')[2])
+            separate1.add_edge(vSt, vEd, weight=eLn)
+separate2 = nx.Graph()
+separate2.add_edge(99, 98, weight=1)
+separate2.add_edge(98, 100, weight=1)
 
 
 # Calculations
-print("The number of Connected Components: ", len(ccs))
-print("The size of the largest Connected Component: ", len(ccs[0]))
-print("The size of the smallest Connected Component: ", len(ccs[-1]))
+print("The number of Connected Components: ", len(cc))
+print("The size of the largest Connected Component: ", len(cc[0]))
+print("The size of the smallest Connected Component: ", len(cc[-1]))
 print("Mean of Node Degree: {0:.2}".format(mean))
 print("Standard Deviation of Node Degree: {0:.2}".format(standardDeviation))
+g = nx.to_undirected(dg)
+a = nx.minimum_spanning_tree(g)
+print("Is forest?: ", nx.is_forest(a))
+print("Is tree?: ", nx.is_tree(a))
+separate1.remove_edge(1, 3)
+b = nx.minimum_spanning_tree(separate1)
+print("Removed edge from largest cc")
+print("Is forest? ", nx.is_forest(b))
+print("Is tree? ", nx.is_tree(b))
+print("Is subnetwork 1 Eularian? ", nx.is_eulerian(separate1))
+print("Is subnetwork 2 Eularian? ", nx.is_eulerian(separate2))
+plt.show()
+
