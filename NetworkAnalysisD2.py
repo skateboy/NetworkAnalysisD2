@@ -123,7 +123,15 @@ plt.title('Shortest path between all nodes probability distribution: Undirected 
     mean) + ' STD: {0:.2}'.format(standardDeviation))
 plt.hist(totalweight, bins=100)
 
-
+paths = nx.all_simple_paths(separate1, 1, 13, 9)
+hold = []
+hold = list(paths)
+pathlen = []
+for x in hold:
+    pathlen.append(len(x))
+plt.figure(9)
+plt.title('Probability Distribution of lengths of all paths between 2 arbitrary nodes: Undirected Graph')
+plt.hist(pathlen, bins=50)
 
 #####Calculations
 mean = np.mean(ug.degree)
@@ -273,6 +281,15 @@ separate2 = nx.Graph()
 separate2.add_edge(99, 98, weight=1)
 separate2.add_edge(98, 100, weight=1)
 
+paths = nx.all_simple_paths(separate1, 1, 5, 8)
+hold = []
+hold = list(paths)
+pathlen = []
+for x in hold:
+    pathlen.append(len(x))
+plt.figure(8)
+plt.title('Probability Distribution of lengths of all paths between 2 arbitrary nodes: Directed Graph')
+plt.hist(pathlen, bins=50)
 
 # Calculations
 print("The number of Connected Components: ", len(cc))
