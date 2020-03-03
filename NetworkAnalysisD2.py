@@ -38,13 +38,11 @@ lines = f.readlines()
 # num3: weight of the edge.
 
 ug = nx.Graph()
-edgeweight = []
 
 for ln in lines[2:-1]:
     vSt = int(ln.split(' ')[0])
     vEd = int(ln.split(' ')[1])
     eLn = float(ln.split(' ')[2])
-    edgeweight.append(eLn)
     ug.add_edge(vSt, vEd, weight=eLn)
 
 
@@ -52,6 +50,7 @@ ug.add_edge(81, 99, weight=1)
 ug.add_edge(99, 98, weight=1)
 
 pos = nx.spring_layout(ug)
+###Display Undirected Network
 # nodes
 plt.figure(1)
 plt.title('Undirected graph')
@@ -61,6 +60,8 @@ nx.draw_networkx_edges(ug, pos, width=1)
 plt.show()
 
 cc = sorted(nx.connected_components(ug), key = len, reverse=True)
+###Separate1 = Largest Connected Component
+###Separate2 = Second largest Connected Component
 separate1 = nx.Graph()
 separate2 = nx.Graph()
 for ln in lines[2:-1]:
@@ -75,10 +76,11 @@ separate2.add_edge(99, 98, weight=1)
 
 #####Calculations
 mean = np.mean(ug.degree)
-standardDeviation=np.std(ug.degree)
+standardDeviation = np.std(ug.degree)
+###Displaying probability distribution of Node Degree
 plt.figure(2)
 plt.title('Node Degree Histogram of Undirected Graph')
-plt.hist(edgeweight, bins=100)
+plt.hist(ug.degree, bins=100)
 plt.show()
 
 print("The Amount of Connected Components: ", nx.number_connected_components(ug))
@@ -132,12 +134,10 @@ lines = f.readlines()
 
 dg = nx.DiGraph()
 
-dedgeweight = []
 for ln in lines[2:-1]:
     vSt = int(ln.split(' ')[0])
     vEd = int(ln.split(' ')[1])
     eLn = float(ln.split(' ')[2])
-    dedgeweight.append(eLn)
     dg.add_edge(vSt, vEd, weight=eLn)
 
 
@@ -147,6 +147,7 @@ ccs = [list(cc) for cc in nx.strongly_connected_components(dg)]
 mean = np.mean(dg.degree)
 standardDeviation = np.std(dg.degree)
 
+###Displaying directed graph
 plt.figure(4)
 plt.title('Directed graph')
 # nodes
@@ -155,6 +156,7 @@ nx.draw_networkx_nodes(dg, pos, node_size=50)
 nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
 plt.show()
 
+###Displaying probability distribution of node degree
 plt.figure(3)
 plt.title('Node Degree Histogram of Directed Graph')
 plt.hist(dg.degree, bins=100)
