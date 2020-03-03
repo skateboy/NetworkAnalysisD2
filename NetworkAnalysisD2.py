@@ -4,8 +4,8 @@ Created on Mon Feb 24 14:29:50 2020
 
 @author: Ryan Cardin, Sumedh Sohrab
 """
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 
 # This script shows how to import a dataset into Python that is downloaded from KONECT.
@@ -22,7 +22,7 @@ lines = f.readlines()
 print('#####################################################################')
 print('############### Undirected weighted network: README #################')
 print('#####################################################################')
-#for ln in lines:
+# for ln in lines:
 #   print(ln)
 
 #### Reading the data
@@ -45,7 +45,6 @@ for ln in lines[2:-1]:
     eLn = float(ln.split(' ')[2])
     ug.add_edge(vSt, vEd, weight=eLn)
 
-
 ug.add_edge(81, 99, weight=1)
 ug.add_edge(99, 98, weight=1)
 
@@ -57,9 +56,9 @@ plt.title('Undirected graph')
 nx.draw_networkx_nodes(ug, pos, node_size=50)
 # edges
 nx.draw_networkx_edges(ug, pos, width=1)
-plt.show()
+##################################################################plt.show()
 
-cc = sorted(nx.connected_components(ug), key = len, reverse=True)
+cc = sorted(nx.connected_components(ug), key=len, reverse=True)
 ###Separate1 = Largest Connected Component
 ###Separate2 = Second largest Connected Component
 separate1 = nx.Graph()
@@ -74,6 +73,41 @@ for ln in lines[2:-1]:
 separate2.add_edge(81, 99, weight=1)
 separate2.add_edge(99, 98, weight=1)
 
+n1 = separate1.copy()
+n2 = separate1.copy()
+print("N1 and N2 copy: ")
+if n1.number_of_edges() == n2.number_of_edges():
+    print("They are equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N2 num of edges: ", n2.number_of_edges())
+else:
+    print("They are not equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N2 num of edges: ", n2.number_of_edges())
+
+n3 = n2.copy()
+n3.add_edge(5, 6, weight=1)
+n3.add_edge(5, 7, weight=1)
+n3.add_edge(25, 8, weight=1)
+n3.add_edge(26, 8, weight=1)
+n3.add_edge(5, 11, weight=1)
+n3.add_edge(36, 7, weight=1)
+n3.add_edge(1, 5, weight=1)
+n3.add_edge(1, 61, weight=1)
+n3.add_edge(9, 16, weight=1)
+n3.add_edge(19, 10, weight=1)
+
+print("Added 10 edges to N3: ")
+if n1.number_of_edges() == n3.number_of_edges():
+    print("They are equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N3 num of edges: ", n3.number_of_edges())
+else:
+    print("They are not equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N3 num of edges: ", n3.number_of_edges())
+
+
 #####Calculations
 mean = np.mean(ug.degree)
 standardDeviation = np.std(ug.degree)
@@ -81,7 +115,7 @@ standardDeviation = np.std(ug.degree)
 plt.figure(2)
 plt.title('Node Degree Histogram of Undirected Graph')
 plt.hist(ug.degree, bins=100)
-plt.show()
+##################################################################plt.show()
 
 print("The Amount of Connected Components: ", nx.number_connected_components(ug))
 ccs = [len(c) for c in sorted(nx.connected_components(ug), key=len, reverse=True)]
@@ -92,17 +126,13 @@ print("Standard Deviation: {0:.2}".format(standardDeviation))
 print("Is subnetwork 1 Eularian? ", nx.is_eulerian(separate1))
 print("Is subnetwork 2 Eularian? ", nx.is_eulerian(separate2))
 a = nx.minimum_spanning_tree(ug)
-print(sorted(a.edges(data=True)))
 print("Is tree?", nx.is_tree(a))
 print("Is forest?", nx.is_forest(a))
 separate1.remove_edge(3, 11)
 b = nx.minimum_spanning_tree(separate1)
-print(sorted(b.edges(data=True)))
 print("Removed edge from largest CC")
 print("Is tree?", nx.is_tree(b))
 print("Is forest?", nx.is_forest(b))
-
-
 
 #######################################
 #### START: for a directed network ####
@@ -116,7 +146,7 @@ lines = f.readlines()
 print('###################################################################')
 print('############### Directed weighted network: README #################')
 print('###################################################################')
-#for ln in lines:
+# for ln in lines:
 #    print(ln)
 
 ## Reading the data
@@ -140,7 +170,6 @@ for ln in lines[2:-1]:
     eLn = float(ln.split(' ')[2])
     dg.add_edge(vSt, vEd, weight=eLn)
 
-
 pos = nx.spring_layout(dg)
 
 ccs = [list(cc) for cc in nx.strongly_connected_components(dg)]
@@ -154,18 +183,49 @@ plt.title('Directed graph')
 nx.draw_networkx_nodes(dg, pos, node_size=50)
 # edges
 nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
-plt.show()
+##################################################################plt.show()
 
 ###Displaying probability distribution of node degree
 plt.figure(3)
 plt.title('Node Degree Histogram of Directed Graph')
 plt.hist(dg.degree, bins=100)
-plt.show()
+##################################################################plt.show()
 
-#Calculations
+n1 = dg.copy()
+n2 = dg.copy()
+print("N1 and N2 copy:")
+if n1.number_of_edges() == n2.number_of_edges():
+    print("They are equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N2 num of edges: ", n2.number_of_edges())
+else:
+    print("They are not equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N2 num of edges: ", n2.number_of_edges())
+n3 = n2.copy()
+n2.add_edge(1, 5, weight=1)
+n3.add_edge(1, 6, weight=1)
+n3.add_edge(1, 7, weight=1)
+n3.add_edge(1, 8, weight=1)
+n3.add_edge(1, 9, weight=1)
+n3.add_edge(1, 10, weight=1)
+n3.add_edge(3, 5, weight=1)
+n3.add_edge(4, 5, weight=1)
+n3.add_edge(7, 5, weight=1)
+n3.add_edge(8, 5, weight=1)
+print("Added 10 edges to N3:")
+if n1.number_of_edges() == n3.number_of_edges():
+    print("They are equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N3 num of edges: ", n3.number_of_edges())
+else:
+    print("They are not equal")
+    print("N1 num of edges: ", n1.number_of_edges())
+    print("N3 num of edges: ", n3.number_of_edges())
+
+# Calculations
 print("The number of Connected Components: ", len(ccs))
 print("The size of the largest Connected Component: ", len(ccs[0]))
 print("The size of the smallest Connected Component: ", len(ccs[-1]))
 print("Mean of Node Degree: {0:.2}".format(mean))
 print("Standard Deviation of Node Degree: {0:.2}".format(standardDeviation))
-
