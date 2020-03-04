@@ -75,7 +75,7 @@ separate2.add_edge(81, 99, weight=1)
 separate2.add_edge(99, 98, weight=1)
 
 
-## Part F
+## Part F: Image of weight
 um = nx.to_numpy_matrix(ug)
 um2 = um[:100,:100]
 plt.figure(5)
