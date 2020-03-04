@@ -55,7 +55,6 @@ nx.draw_networkx_nodes(ug, pos, node_size=50)
 # edges
 nx.draw_networkx_edges(ug, pos, width=1)
 
-
 cc = sorted(nx.connected_components(ug), key=len, reverse=True)
 ###Separate1 = Largest Connected Component
 ###Separate2 = Second largest Connected Component
@@ -124,10 +123,9 @@ plt.figure(2)
 plt.imshow(um2, interpolation='nearest')
 plt.grid(True)
 
-
 # Part I: Image of Lengths Through Dijkstra's Algorithm
 ####################################################
-#to_numpy_matrix only works with directed graphs
+# to_numpy_matrix only works with directed graphs
 ####################################################
 
 # Part B: Standard Deviation and Mean with a Histogram representing the Probability Distribution of the Node Degree
@@ -139,7 +137,6 @@ print("Standard Deviation of Node Degree: {0:.2}".format(standardDeviation))
 plt.figure(4)
 plt.title('Node Degree Histogram of Undirected Graph')
 plt.hist(ug.degree, bins=100)
-
 
 # Part A: Analysis of Connected Components
 print("The Amount of Connected Components: ", nx.number_connected_components(ug))
@@ -158,7 +155,6 @@ b = nx.minimum_spanning_tree(separate1)
 print("Removed edge from largest CC")
 print("Is tree?", nx.is_tree(b))
 print("Is forest?", nx.is_forest(b))
-
 
 flName = 'moreno_highschool\README.moreno_highschool'
 f = open(flName, 'r')
@@ -198,7 +194,6 @@ plt.title('Directed graph')
 nx.draw_networkx_nodes(dg, pos, node_size=50)
 # edges
 nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
-
 
 # Part B: Standard Deviation and Mean with a Histogram representing the Probability Distribution of the Node Degree
 ###Displaying probability distribution of node degree
@@ -251,7 +246,7 @@ plt.imshow(dm2, interpolation='nearest')
 plt.grid(True)
 
 # Part D: Histogram representing all simple circuits of a node
-#It works but the computation time is too much for my computer
+#Works but is very load heavy. Uncomment to run
 #circuit = nx.simple_cycles(dg)
 #circuitnode = []
 #for i in circuit:
@@ -265,11 +260,10 @@ plt.grid(True)
 ########################################################################################################
 # Issues feeding lengths of paths with direction into nx.to_numpy_matrix because it only accepts directed graphs
 ########################################################################################################
-#dsp = nx.dijkstra_path(dg, 1, 13)
-#dsp2 = nx.to_numpy_matrix(dsp)
-#spmean = np.mean(dsp2)
-#spstd = np.std(dsp2)
-
+# dsp = nx.dijkstra_path(dg, 1, 13)
+# dsp2 = nx.to_numpy_matrix(dsp)
+# spmean = np.mean(dsp2)
+# spstd = np.std(dsp2)
 allp = nx.all_pairs_dijkstra_path_length(dg)
 allp2 = list(allp)
 totalweight = []
@@ -331,4 +325,20 @@ print("Is tree? ", nx.is_tree(b))
 # Part E: Euler Network
 print("Is subnetwork 1 Eularian? ", nx.is_eulerian(separate1))
 print("Is subnetwork 2 Eularian? ", nx.is_eulerian(separate2))
+
+########################################################################
+#This is for the undirected graph but it is placed here to not skew scrrenshots with code and code line
+#Part I: Shortest path lengths between all nodes using Dijkstras Algorithm
+allp = nx.all_pairs_dijkstra_path_length(ug)
+allp2 = list(allp)
+totalweight = []
+for x in allp2:
+    y = 1
+    for y in x[1]:
+        totalweight.append(x[1][y])
+
+plt.figure(12)
+plt.title('Shortest path between all nodes probability distribution: Undirected Graph: Mean: {0:.2}'.format(
+    mean) + ' STD: {0:.2}'.format(standardDeviation))
+plt.hist(totalweight, bins=100)
 plt.show()
