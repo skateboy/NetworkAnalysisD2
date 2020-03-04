@@ -32,7 +32,7 @@ lines = f.readlines()
 # num3: weight of the edge.
 
 ####################################################################################
-# Note: Part C was not available for the undirected graphs
+# Note: Part D was not available for the undirected graphs
 ####################################################################################
 
 ug = nx.Graph()
@@ -70,6 +70,17 @@ for ln in lines[2:-1]:
             separate1.add_edge(vSt, vEd, weight=eLn)
 separate2.add_edge(81, 99, weight=1)
 separate2.add_edge(99, 98, weight=1)
+
+# Part C: Histogram representing the lengths of all paths between 2 nodes
+paths = nx.all_simple_paths(separate1, 1, 13, 9)
+hold = []
+hold = list(paths)
+pathlen = []
+for x in hold:
+    pathlen.append(len(x))
+plt.figure(11)
+plt.title('Probability Distribution of lengths of all paths between 2 arbitrary nodes: Undirected Graph')
+plt.hist(pathlen, bins=50)
 
 # Part G: Compare copies of the network and then compare again after adding 10 edges
 n1 = separate1.copy()
@@ -113,15 +124,11 @@ plt.figure(2)
 plt.imshow(um2, interpolation='nearest')
 plt.grid(True)
 
-#
-## Part I: Image of Lengths Through Dijkstra's Algorithm
-#usp = nx.dijkstra_path(ug, 1, 13)
-#usp2 = nx.to_numpy_matrix(usp)
-#spmean = np.mean(usp2)
-#spstd = np.std(usp2)
-#plt.figure(3)
-#plt.title('Shortest Path Histogram of Undirected Graph')
-#plt.hist(usp2, bins=100)
+
+# Part I: Image of Lengths Through Dijkstra's Algorithm
+####################################################
+#to_numpy_matrix only works with directed graphs
+####################################################
 
 # Part B: Standard Deviation and Mean with a Histogram representing the Probability Distribution of the Node Degree
 mean = np.mean(ug.degree)
@@ -243,7 +250,21 @@ plt.figure(7)
 plt.imshow(dm2, interpolation='nearest')
 plt.grid(True)
 
+# Part D: Histogram representing all simple circuits of a node
+#It works but the computation time is too much for my computer
+#circuit = nx.simple_cycles(dg)
+#circuitnode = []
+#for i in circuit:
+#    if i[0] == 1:
+#        circuitnode.append(len(i))
+#plt.figure(10)
+#plt.title('Histogram of length of all simple cycles of a node')
+#plt.hist(circuitnode, bins=100)
+
 ## Part I: Image of Lengths Through Dijkstra's Algorithm
+########################################################################################################
+# Issues feeding lengths of paths with direction into nx.to_numpy_matrix because it only accepts directed graphs
+########################################################################################################
 #dsp = nx.dijkstra_path(dg, 1, 13)
 #dsp2 = nx.to_numpy_matrix(dsp)
 #spmean = np.mean(dsp2)
