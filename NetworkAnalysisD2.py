@@ -74,6 +74,15 @@ for ln in lines[2:-1]:
 separate2.add_edge(81, 99, weight=1)
 separate2.add_edge(99, 98, weight=1)
 
+
+## Part F
+um = nx.to_numpy_matrix(ug)
+um2 = um[:100,:100]
+plt.figure(5)
+plt.imshow(um2, interpolation='nearest')
+plt.grid(True)
+
+
 #####Calculations
 mean = np.mean(ug.degree)
 standardDeviation = np.std(ug.degree)
@@ -148,7 +157,7 @@ mean = np.mean(dg.degree)
 standardDeviation = np.std(dg.degree)
 
 ###Displaying directed graph
-plt.figure(4)
+plt.figure(3)
 plt.title('Directed graph')
 # nodes
 nx.draw_networkx_nodes(dg, pos, node_size=50)
@@ -157,7 +166,7 @@ nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
 plt.show()
 
 ###Displaying probability distribution of node degree
-plt.figure(3)
+plt.figure(4)
 plt.title('Node Degree Histogram of Directed Graph')
 plt.hist(dg.degree, bins=100)
 plt.show()
