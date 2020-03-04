@@ -171,6 +171,13 @@ plt.title('Node Degree Histogram of Directed Graph')
 plt.hist(dg.degree, bins=100)
 plt.show()
 
+## Part F: Image of weight
+dm = nx.to_numpy_matrix(dg)
+dm2 = dm[:100,:100]
+plt.figure(5)
+plt.imshow(dm2, interpolation='nearest')
+plt.grid(True)
+
 #Calculations
 print("The number of Connected Components: ", len(ccs))
 print("The size of the largest Connected Component: ", len(ccs[0]))
