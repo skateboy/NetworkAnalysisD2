@@ -82,6 +82,16 @@ plt.figure(5)
 plt.imshow(um2, interpolation='nearest')
 plt.grid(True)
 
+## Part I: Image of Lengths Through Dijkstra's Algorithm
+usp = nx.dijkstra_path(ug)
+usp2 = nx.to_numpy_matrix(usp)
+spmean = np.mean(usp2)
+spstd = np.std(usp2)
+plt.figure(7)
+plt.title('Shortest Path Histogram of Undirected Graph')
+plt.hist(usp2, bins=100)
+plt.show()
+
 
 #####Calculations
 mean = np.mean(ug.degree)
@@ -169,6 +179,23 @@ plt.show()
 plt.figure(4)
 plt.title('Node Degree Histogram of Directed Graph')
 plt.hist(dg.degree, bins=100)
+plt.show()
+
+## Part F: Image of weight
+dm = nx.to_numpy_matrix(dg)
+dm2 = dm[:100,:100]
+plt.figure(6)
+plt.imshow(dm2, interpolation='nearest')
+plt.grid(True)
+
+## Part I: Image of Lengths Through Dijkstra's Algorithm
+dsp = nx.dijkstra_path(dg)
+dsp2 = nx.to_numpy_matrix(dsp)
+spmean = np.mean(dsp2)
+spstd = np.std(dsp2)
+plt.figure(8)
+plt.title('Shortest Path Histogram of Undirected Graph')
+plt.hist(dsp2, bins=100)
 plt.show()
 
 #Calculations
