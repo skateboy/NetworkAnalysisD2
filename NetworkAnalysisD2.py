@@ -84,6 +84,12 @@ plt.grid(True)
 
 ## Part I: Image of Lengths Through Dijkstra's Algorithm
 usp = nx.dijkstra_path(ug)
+spmean = np.mean(usp)
+spstd = np.std(usp)
+plt.figure(6)
+plt.title('Shortest Path Histogram of Undirected Graph')
+plt.hist(usp, bins=100)
+plt.show()
 
 
 #####Calculations
