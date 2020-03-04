@@ -82,6 +82,9 @@ plt.figure(5)
 plt.imshow(um2, interpolation='nearest')
 plt.grid(True)
 
+## Part I: Image of Lengths Through Dijkstra's Algorithm
+usp = nx.dijkstra_path(ug)
+
 
 #####Calculations
 mean = np.mean(ug.degree)
