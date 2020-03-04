@@ -74,6 +74,25 @@ for ln in lines[2:-1]:
 separate2.add_edge(81, 99, weight=1)
 separate2.add_edge(99, 98, weight=1)
 
+
+## Part F: Image of weight
+um = nx.to_numpy_matrix(ug)
+um2 = um[:100,:100]
+plt.figure(5)
+plt.imshow(um2, interpolation='nearest')
+plt.grid(True)
+
+## Part I: Image of Lengths Through Dijkstra's Algorithm
+usp = nx.dijkstra_path(ug)
+usp2 = nx.to_numpy_matrix(usp)
+spmean = np.mean(usp2)
+spstd = np.std(usp2)
+plt.figure(7)
+plt.title('Shortest Path Histogram of Undirected Graph')
+plt.hist(usp2, bins=100)
+plt.show()
+
+
 #####Calculations
 mean = np.mean(ug.degree)
 standardDeviation = np.std(ug.degree)
@@ -148,7 +167,7 @@ mean = np.mean(dg.degree)
 standardDeviation = np.std(dg.degree)
 
 ###Displaying directed graph
-plt.figure(4)
+plt.figure(3)
 plt.title('Directed graph')
 # nodes
 nx.draw_networkx_nodes(dg, pos, node_size=50)
@@ -157,9 +176,26 @@ nx.draw_networkx_edges(dg, pos, width=.1, arrow=True)
 plt.show()
 
 ###Displaying probability distribution of node degree
-plt.figure(3)
+plt.figure(4)
 plt.title('Node Degree Histogram of Directed Graph')
 plt.hist(dg.degree, bins=100)
+plt.show()
+
+## Part F: Image of weight
+dm = nx.to_numpy_matrix(dg)
+dm2 = dm[:100,:100]
+plt.figure(6)
+plt.imshow(dm2, interpolation='nearest')
+plt.grid(True)
+
+## Part I: Image of Lengths Through Dijkstra's Algorithm
+dsp = nx.dijkstra_path(dg)
+dsp2 = nx.to_numpy_matrix(dsp)
+spmean = np.mean(dsp2)
+spstd = np.std(dsp2)
+plt.figure(8)
+plt.title('Shortest Path Histogram of Undirected Graph')
+plt.hist(dsp2, bins=100)
 plt.show()
 
 #Calculations
